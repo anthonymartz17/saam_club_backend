@@ -10,10 +10,10 @@ const {
 
 // Like a post
 likes.post("/", async (req, res) => {
-  const { user_id, posts_id } = req.body;
+  const { user_id, post_id } = req.body;
 
   try {
-    const newLike = await addLike(user_id, posts_id);
+    const newLike = await addLike(user_id, post_id);
     if (newLike) {
       res
         .status(201)
@@ -30,10 +30,10 @@ likes.post("/", async (req, res) => {
 
 // Remove like from a post
 likes.delete("/", async (req, res) => {
-  const { user_id, posts_id } = req.query;
+  const { user_id, post_id } = req.query;
 
   try {
-    const removedLike = await removeLike(user_id, posts_id);
+    const removedLike = await removeLike(user_id, post_id);
     if (removedLike) {
       res
         .status(200)
@@ -49,10 +49,10 @@ likes.delete("/", async (req, res) => {
 });
 
 // Get all likes for a post
-likes.get("/:posts_id", async (req, res) => {
-  const { posts_id } = req.params;
+likes.get("/:post_id", async (req, res) => {
+  const { post_id } = req.params;
   try {
-    const likes = await getLikesForPost(posts_id);
+    const likes = await getLikesForPost(post_id);
     if (likes.length > 0) {
       res.status(200).json(likes);
     } else {
