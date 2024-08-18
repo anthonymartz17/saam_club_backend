@@ -27,7 +27,7 @@ CREATE TABLE posts (
 -- Create comments table:
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
-    posts_id INTEGER REFERENCES posts(id),
+    post_id INTEGER REFERENCES posts(id),
     user_id INTEGER REFERENCES users(id),
     user_uid VARCHAR(255) NOT NULL,
     parent_comment_id INTEGER REFERENCES comments(id),
@@ -38,8 +38,8 @@ CREATE TABLE comments (
 
 -- Create likes table:
 CREATE TABLE likes (
-    PRIMARY KEY (user_id, posts_id),
+    PRIMARY KEY (user_id, post_id),
     user_id INTEGER REFERENCES users(id),
-    posts_id INTEGER REFERENCES posts(id),
+    post_id INTEGER REFERENCES posts(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

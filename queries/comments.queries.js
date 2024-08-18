@@ -1,11 +1,11 @@
 const db = require("../db/db-config");
 
 async function getTopLevelComments(postId) {
-  const topLevelComments = await db.any(
-    "SELECT * FROM comments WHERE post_id = $1 AND parent_id IS NULL",
+	const topLevelComments = await db.any(
+		"SELECT * FROM comments WHERE post_id = $1 AND parent_comment_id IS NULL",
 		[postId]
-    );
-    console.log("postId:", topLevelComments);
+	);
+	console.log("postId:", topLevelComments);
 	return topLevelComments;
 }
 
@@ -32,7 +32,7 @@ async function createComment({
 	content,
 }) {
 	const newComment = await db.one(
-		"INSERT INTO comments (post_id, parent_comment_id, user_id, user_uid, content) VALUES ($1, $2, $3, $4) RETURNING *",
+		"INSERT INTO comments (post_id, parent_comment_id, user_id, user_uid, content) VALUES ($1, $2, $3, $4,$5) RETURNING *",
 		[post_id, parent_comment_id, user_id, user_uid, content]
 	);
 	return newComment;
@@ -50,9 +50,10 @@ async function deleteComment(id) {
 	const deletedComment = await db.one(
 		"DELETE FROM comments WHERE id = $1 RETURNING *",
 		[id]
-	);
+  );
+  console.log("deletedComment:", deletedComment);
 	return deletedComment;
-} 
+}
 
 module.exports = {
 	getTopLevelComments,
