@@ -15,7 +15,9 @@ likes.post("/", async (req, res) => {
   try {
     const newLike = await addLike(user_id, posts_id);
     if (newLike) {
-      res.status(201).json({ message: "Like added", like: newLike });
+      res
+        .status(201)
+        .json({ message: "Like added successfully", like: newLike });
     } else {
       res.status(409).json({ message: "Like already exists" });
     }
@@ -27,13 +29,15 @@ likes.post("/", async (req, res) => {
 });
 
 // Remove like from a post
-likes.delete("/:user_id/:posts_id", async (req, res) => {
-  const { user_id, posts_id } = req.params;
+likes.delete("/", async (req, res) => {
+  const { user_id, posts_id } = req.query;
 
   try {
     const removedLike = await removeLike(user_id, posts_id);
     if (removedLike) {
-      res.status(200).json({ message: "Like removed", like: removedLike });
+      res
+        .status(200)
+        .json({ message: "Like removed successfully", like: removedLike });
     } else {
       res.status(404).json({ message: "Like not found" });
     }
@@ -49,7 +53,11 @@ likes.get("/:posts_id", async (req, res) => {
   const { posts_id } = req.params;
   try {
     const likes = await getLikesForPost(posts_id);
-    res.status(200).json(likes);
+    if (likes.length > 0) {
+      res.status(200).json(likes);
+    } else {
+      res.status(404).json({ message: "No likes found for this post" });
+    }
   } catch (error) {
     res
       .status(500)
@@ -62,7 +70,11 @@ likes.get("/user/:user_id", async (req, res) => {
   const { user_id } = req.params;
   try {
     const likes = await getLikesByUser(user_id);
-    res.status(200).json(likes);
+    if (likes.length > 0) {
+      res.status(200).json(likes);
+    } else {
+      res.status(404).json({ message: "No likes found for this user" });
+    }
   } catch (error) {
     res
       .status(500)
