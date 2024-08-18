@@ -2,12 +2,15 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
-//middlewares
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-	res.send("Hello World!");
-});
+// Root Route
+app.get("/", (req, res) => res.send("Hello World!"));
+
+// Routes
+const { likes } = require("./controllers/likes.controller");
+app.use("/likes", likes);
 
 module.exports = app;
