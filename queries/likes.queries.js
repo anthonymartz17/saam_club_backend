@@ -1,4 +1,4 @@
-const db = require("../db/dbConfig.js");
+const db = require("../db/db-config.js");
 
 // Like a post
 const addLike = async (user_id, posts_id) => {
