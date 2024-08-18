@@ -13,7 +13,7 @@ INSERT INTO posts (user_id, user_uid, content) VALUES
 (3, 'user3_uid', 'This is my first blog post.');
 
 -- Inserting data into the comments table
-INSERT INTO comments (user_id, posts_id, user_uid, parent_comment_id, content) VALUES
+INSERT INTO comments (user_id, post_id, user_uid, parent_comment_id, content) VALUES
 (1, 1, 'user1_uid', NULL, 'Great post!'),
 (2, 1, 'user2_uid', NULL, 'I agree!'),
 (3, 1, 'user3_uid', 1, 'Thanks!'),
@@ -22,7 +22,7 @@ INSERT INTO comments (user_id, posts_id, user_uid, parent_comment_id, content) V
 (3, 2, 'user3_uid', 2, 'Glad to see you here!');
 
 -- Inserting data into the likes table
-INSERT INTO likes (user_id, posts_id) VALUES
+INSERT INTO likes (user_id, post_id) VALUES
 (1, 1),
 (2, 1),
 (3, 1),
