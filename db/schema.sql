@@ -17,7 +17,7 @@ CREATE TABLE users (
 -- Create posts table:
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, 
     user_uid VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -27,10 +27,10 @@ CREATE TABLE posts (
 -- Create comments table:
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
-    post_id INTEGER REFERENCES posts(id),
-    user_id INTEGER REFERENCES users(id),
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     user_uid VARCHAR(255) NOT NULL,
-    parent_comment_id INTEGER REFERENCES comments(id),
+    parent_comment_id INTEGER REFERENCES comments(id) ON DELETE CASCADE,
     content TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -39,7 +39,7 @@ CREATE TABLE comments (
 -- Create likes table:
 CREATE TABLE likes (
     PRIMARY KEY (user_id, post_id),
-    user_id INTEGER REFERENCES users(id),
-    post_id INTEGER REFERENCES posts(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
