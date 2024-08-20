@@ -49,7 +49,7 @@ likes.delete("/removeLike/:post_id/:user_id", async (req, res) => {
 });
 
 // Get all likes for a post
-likes.get("/:post_id", async (req, res) => {
+likes.get("/post/:post_id", async (req, res) => {
   const { post_id } = req.params;
   try {
     const likes = await getLikesForPost(post_id);
