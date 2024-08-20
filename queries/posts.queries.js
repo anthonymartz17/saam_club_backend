@@ -43,7 +43,7 @@ const updatePost = async (id, post) => {
                 id, 
             ]
         );
-        return updatePost;
+        return updatedPost;
 
 }
 
@@ -54,7 +54,7 @@ const deletePost = async (id) => {
         const deletedPost = await db.one(
             "DELETE FROM posts WHERE id=$1 RETURNING *", id
         );
-        return deletePost;
+        return deletedPost;
 
 
 };

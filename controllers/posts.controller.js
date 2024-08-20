@@ -29,11 +29,13 @@ posts.get("/:id", async (req,res) => {
 
 posts.put("/:id", async (req, res) => {
     const { id } = req.params;
+    console.log(req.params, "req.params");
     try {
         const updatedPost = await updatePost(id, req.body);
+        console.log(updatedPost, "updated post");
         res.status(200).json(updatedPost);
     } catch(error) {
-        res.status(404).json({ error: `N0 post with the id ${id} exists`});
+        res.status(500).json({ error: "Internal server error", message: error.message });
     }
 });
 
