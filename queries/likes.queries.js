@@ -34,9 +34,19 @@ const getLikesByUser = async (user_id) => {
   return res;
 };
 
+// Get 1 like by user and post id
+const getLikeByUserAndPostId = async (user_id, post_id) => {
+  const res = await db.oneOrNone(
+    `SELECT * FROM likes WHERE user_id = $1 AND post_id = $2;`,
+    [user_id, post_id]
+  );
+  return res;
+};
+
 module.exports = {
   addLike,
   removeLike,
   getLikesForPost,
   getLikesByUser,
+  getLikeByUserAndPostId,
 };
