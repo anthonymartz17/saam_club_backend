@@ -40,7 +40,18 @@ posts.put("/:id", async (req, res) => {
 posts.delete("/:id", async (req,res) => {
     const { id } = req.params;
     console.log(req.params);
-    const deletedPost = await deletePost(id);
+    try {
+        const deletedPost = await deletePost(id);
+        if(!deletedPost) {
+            return res.status(404).json({ error: `N0 post with the id ${id} exists`});
+
+        } 
+        res.status(200).json(deletedPost);
+            
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error", message: error.message });
+    }
     if (deletePost) {
         res.status(200).json(deletePost);
     } else {
