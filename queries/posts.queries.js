@@ -1,11 +1,32 @@
 const db = require("../db/db-config");
 
 const getAllPosts = async () => {
-  
-        const allPost = await db.any("SELECT * FROM posts ");
-        return allPost;
-
+    const allPost = await db.any(`
+        SELECT 
+            posts.id,
+            posts.user_uid,
+            posts.content,
+            posts.created_at,
+            posts.updated_at,
+            users.username,
+            COUNT(DISTINCT likes.user_id) AS like_count,
+            COUNT(DISTINCT comments.id) AS comment_count
+        FROM 
+            posts
+        LEFT JOIN 
+            users ON posts.user_id = users.id
+        LEFT JOIN 
+            likes ON posts.id = likes.posts_id
+        LEFT JOIN 
+            comments ON posts.id = comments.posts_id
+        GROUP BY 
+            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username
+        ORDER BY 
+            posts.created_at DESC
+    `);
+    return allPost;
 };
+
 
 const createPost = async (post) => {
 
@@ -25,7 +46,29 @@ const createPost = async (post) => {
 
 const getPost = async (id) => {
   
-        const onePost = await db.oneOrNone("SELECT * FROM posts WHERE id = $1", id);
+        const onePost = await db.oneOrNone(`
+        SELECT 
+            posts.id,
+            posts.user_uid,
+            posts.content,
+            posts.created_at,
+            posts.updated_at,
+            users.username,
+            COUNT(DISTINCT likes.user_id) AS like_count,
+            COUNT(DISTINCT comments.id) AS comment_count
+        FROM 
+            posts
+        LEFT JOIN 
+            users ON posts.user_id = users.id
+        LEFT JOIN 
+            likes ON posts.id = likes.posts_id
+        LEFT JOIN 
+            comments ON posts.id = comments.posts_id
+        WHERE
+            posts.id = $1
+        GROUP BY 
+            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username
+    `, id);
         return onePost;
 
 }
