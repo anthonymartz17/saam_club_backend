@@ -9,8 +9,8 @@ const getAllPosts = async () => {
             posts.created_at,
             posts.updated_at,
             users.username,
-            COUNT(DISTINCT likes.user_id) AS like_count,
-            COUNT(DISTINCT comments.id) AS comment_count
+            CAST(COUNT(DISTINCT likes.user_id) AS INTEGER) AS like_count,
+            CAST(COUNT(DISTINCT comments.id) AS INTEGER) AS comment_count
         FROM 
             posts
         LEFT JOIN 
@@ -54,8 +54,8 @@ const getPost = async (id) => {
             posts.created_at,
             posts.updated_at,
             users.username,
-            COUNT(DISTINCT likes.user_id) AS like_count,
-            COUNT(DISTINCT comments.id) AS comment_count
+            CAST(COUNT(DISTINCT likes.user_id) AS INTEGER) AS like_count,
+            CAST(COUNT(DISTINCT comments.id) AS INTEGER) AS comment_count
         FROM 
             posts
         LEFT JOIN 
