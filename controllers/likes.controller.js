@@ -6,45 +6,25 @@ const {
   removeLike,
   getLikesForPost,
   getLikesByUser,
+  getLikeByUserAndPostId,
 } = require("../queries/likes.queries");
 
-// Like a post
-likes.post("/addLike/:post_id/:user_id", async (req, res) => {
+// toggle like on a post
+likes.post("/post/:post_id/user/:user_id/toggleLike", async (req, res) => {
   const { user_id, post_id } = req.params;
-
   try {
-    const newLike = await addLike(user_id, post_id);
-    if (newLike) {
-      res
-        .status(201)
-        .json({ message: "Like added successfully", like: newLike });
+    const existingLike = await getLikeByUserAndPostId(user_id, post_id);
+    if (existingLike) {
+      await removeLike(user_id, post_id);
+      res.status(200).json({ message: "Like removed successfully" });
     } else {
-      res.status(409).json({ message: "Like already exists" });
+      await addLike(user_id, post_id);
+      res.status(201).json({ message: "Like added successfully" });
     }
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error adding like", error: error.message });
-  }
-});
-
-// Remove like from a post
-likes.delete("/removeLike/:post_id/:user_id", async (req, res) => {
-  const { user_id, post_id } = req.params;
-
-  try {
-    const removedLike = await removeLike(user_id, post_id);
-    if (removedLike) {
-      res
-        .status(200)
-        .json({ message: "Like removed successfully", like: removedLike });
-    } else {
-      res.status(404).json({ message: "Like not found" });
-    }
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error removing like", error: error.message });
+      .json({ message: "Error toggling like", error: error.message });
   }
 });
 
