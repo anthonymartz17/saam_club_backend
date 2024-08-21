@@ -9,6 +9,7 @@ const getAllPosts = async () => {
             posts.created_at,
             posts.updated_at,
             users.username,
+            users.email,
             CAST(COUNT(DISTINCT likes.user_id) AS INTEGER) AS like_count,
             CAST(COUNT(DISTINCT comments.id) AS INTEGER) AS comment_count
         FROM 
@@ -16,11 +17,11 @@ const getAllPosts = async () => {
         LEFT JOIN 
             users ON posts.user_id = users.id
         LEFT JOIN 
-            likes ON posts.id = likes.posts_id
+            likes ON posts.id = likes.post_id
         LEFT JOIN 
-            comments ON posts.id = comments.posts_id
+            comments ON posts.id = comments.post_id
         GROUP BY 
-            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username
+            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username, users.email
         ORDER BY 
             posts.created_at DESC
     `);
@@ -54,6 +55,7 @@ const getPost = async (id) => {
             posts.created_at,
             posts.updated_at,
             users.username,
+            users.email,
             CAST(COUNT(DISTINCT likes.user_id) AS INTEGER) AS like_count,
             CAST(COUNT(DISTINCT comments.id) AS INTEGER) AS comment_count
         FROM 
@@ -61,13 +63,13 @@ const getPost = async (id) => {
         LEFT JOIN 
             users ON posts.user_id = users.id
         LEFT JOIN 
-            likes ON posts.id = likes.posts_id
+            likes ON posts.id = likes.post_id
         LEFT JOIN 
-            comments ON posts.id = comments.posts_id
+            comments ON posts.id = comments.post_id
         WHERE
             posts.id = $1
         GROUP BY 
-            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username
+            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username, users.email
     `, id);
         return onePost;
 
