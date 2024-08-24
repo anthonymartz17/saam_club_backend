@@ -10,6 +10,7 @@ CREATE TABLE users (
     username VARCHAR(50),
     bio TEXT,
     email VARCHAR(100) NOT NULL,
+    img_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
