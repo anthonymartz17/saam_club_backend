@@ -1,10 +1,10 @@
 \c saam_club_db;
 
 -- Inserting data into the users table
-INSERT INTO users (uid, username, bio, email) VALUES 
-('dasfsagg', 'JohnDoe', 'ffeqfqwfq', 'john.doe@example.com'),
-('hjyrjeh', 'JaneSmith', 'fwqefwqf', 'jane.smith@example.com'),
-('efqfeqrqg', 'BobJohnson', 'fwqfqwfwqffq', 'bob.johnson@example.com');
+INSERT INTO users (uid, username, bio, email,img_url) VALUES 
+('scg6sMPLG9T9mWE5VyBVqDae1lw2', 'Antonio', 'Fullstack dev', 'amartinez@pursuit.org','https://ca.slack-edge.com/TCVA3PF24-U0640C4HB5L-313b764ada25-512'),
+('hYYMm5LXqqfKKKpVaf6fEdIjrbq1', 'Abdel', '', 'asayedahmed@pursuit.org','https://ca.slack-edge.com/TCVA3PF24-U064KLDFYKB-1e41f20ca5e6-512'),
+('9wcJUGxDiTZBgDYWRNYlu2tjhAr2', 'Marcus', '', 'mbrowne@pursuit.org','https://ca.slack-edge.com/TCVA3PF24-U063SFA1DN3-1f2158372ace-512');
 
 -- Inserting data into the posts table
 INSERT INTO posts (user_id, user_uid, content) VALUES
