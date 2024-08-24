@@ -9,12 +9,12 @@ function createUser({ uid, username, bio, email, img_url }) {
 	const values = [uid, username, bio, email];
 	return db.one(query, values);
 }
-function getUserById(id) {
+function getUserProfile(uid) {
 	const query = `
         SELECT * FROM users
-        WHERE id = $1
+        WHERE uid = $1
     `;
-	return db.oneOrNone(query, [id]);
+	return db.oneOrNone(query, [uid]);
 }
 
 function updateUser(uid, { username, bio, email, img_url }) {
@@ -29,6 +29,6 @@ function updateUser(uid, { username, bio, email, img_url }) {
 }
 module.exports = {
 	createUser,
-	getUserById,
+	getUserProfile,
 	updateUser,
 };

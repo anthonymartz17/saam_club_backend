@@ -3,22 +3,19 @@ const users = express.Router();
 const { verifyToken } = require("../middleware/auth.middleware");
 const {
 	createUser,
-	getUserById,
+	getUserProfile,
 	updateUser,
 } = require("../queries/users.queries");
 
-users.get("/:id", verifyToken, async (req, res) => {
-	const { id } = req.params;
+users.get("/profile", verifyToken, async (req, res) => {
 	const uid = req.user.uid;
 
 	try {
-		const user = await getUserById(id);
+		const user = await getUserProfile(uid);
 		if (!user) {
 			return res.status(404).json({ message: "User not found" });
 		}
-		if (user.uid !== uid) {
-			return res.status(403).json({ message: "Unauthorized" });
-		}
+		
 		res.status(200).json(user);
 	} catch (error) {
 		res
