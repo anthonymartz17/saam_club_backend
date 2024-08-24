@@ -41,6 +41,7 @@ CREATE TABLE comments (
 CREATE TABLE likes (
     PRIMARY KEY (user_id, post_id),
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    user_uid VARCHAR(255) REFERENCES users(uid) ON DELETE CASCADE,
     post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
