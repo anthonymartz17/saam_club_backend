@@ -9,19 +9,22 @@ const getAllPosts = async () => {
             posts.created_at,
             posts.updated_at,
             users.username,
+            users.email,
             CAST(COUNT(DISTINCT likes.user_id) AS INTEGER) AS like_count,
             CAST(COUNT(DISTINCT comments.id) AS INTEGER) AS comment_count
         FROM 
             posts
         LEFT JOIN
             users ON posts.user_id = users.id
-        LEFT JOIN
+
+        LEFT JOIN 
             likes ON posts.id = likes.post_id
-        LEFT JOIN
+        LEFT JOIN 
             comments ON posts.id = comments.post_id
-        GROUP BY
-            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username
-        ORDER BY
+        GROUP BY 
+            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username, users.email
+        ORDER BY 
+
             posts.created_at DESC
     `);
 	return allPost;
@@ -51,6 +54,7 @@ const getPost = async (id) => {
             posts.created_at,
             posts.updated_at,
             users.username,
+            users.email,
             CAST(COUNT(DISTINCT likes.user_id) AS INTEGER) AS like_count,
             CAST(COUNT(DISTINCT comments.id) AS INTEGER) AS comment_count
         FROM 
@@ -64,12 +68,13 @@ const getPost = async (id) => {
         WHERE
             posts.id = $1
         GROUP BY 
-            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username
-    `,
-		id
-	);
-	return onePost;
-};
+
+            posts.id, posts.user_uid, posts.content, posts.created_at, posts.updated_at, users.username, users.email
+    `, id);
+        return onePost;
+
+}
+
 
 const updatePost = async (id, post) => {
 	const updatedPost = await db.one(
